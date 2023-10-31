@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-blog
+  namespace: default
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: web-blog
+  template:
+    metadata:
+      labels:
+        app: web-blog
+    spec:
+      containers:
+        - name: web-blog
+          image: mreiber/devops_ex1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              cpu: 500m
+            requests:
+              cpu: 200m
